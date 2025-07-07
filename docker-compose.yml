@@ -1,0 +1,13 @@
+services:
+  web:
+    build: ./app
+    ports:
+      - "5180:5180"
+    volumes:
+     - ./app:/app
+     - /app/node_modules
+    environment:
+      NODE_ENV: development
+      VITE_HOST: 0.0.0.0
+    stdin_open: true
+    tty: true
