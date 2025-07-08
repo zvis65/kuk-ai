@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../util.js';
+import { prisma, cleanupUser } from '../util.js';
 
 export async function register(req, res) {
      try{
@@ -27,7 +27,7 @@ export async function register(req, res) {
         );
 
         res.json({
-            token, user
+            token, user: cleanupUser(user) 
         });  
     } catch (error) {
         res.status(500).json({
