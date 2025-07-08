@@ -1,16 +1,21 @@
 import express from 'express';
-import corse from 'cors';
+import cors from 'cors';
+import { login, register } from './views/auth.js';
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/api/v1/health", (req, res) => {
     res.json({
-        message: 'pjes'
+        message: 'test123'
     });
 });
+
+app.post("/api/v1/auth/register", register);
+app.post("/api/v1/auth/login", login);
 
 app.listen(PORT, () => {
     console.log('App is running!');
