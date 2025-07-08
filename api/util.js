@@ -22,7 +22,9 @@ async function jwtMiddleware(req, res, next) {
             })
         }
         
-        
+        req.user = user;
+        next();
+
         
      }catch (error) {
         return res.status(401).json({ 'error': 'Invalid token'})
@@ -33,4 +35,4 @@ function cleanupUser(user) {
     return rest;
 }
 
-export { prisma, jwtMiddleware };
+export { prisma, jwtMiddleware, cleanupUser };
