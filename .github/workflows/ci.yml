@@ -25,5 +25,5 @@ jobs:
             docker compose logs
             exit 1
             if
-        -name: Cleanup
+      - name: Cleanup
         run: docker comose down
