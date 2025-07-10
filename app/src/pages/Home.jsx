@@ -21,7 +21,7 @@ function Home() {
       <div className="max-w-5xl mx-auto px-6 py-8">
         {!recipe ? (
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent">
               Welcome to Kuk-AI
             </h1>
           </div>

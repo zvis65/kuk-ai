@@ -1,27 +1,12 @@
 import { RecipeCard } from "../components/RecipeCard";
-
-const savedRecipes = [
-    {
-      title: 'Raw chicken',
-      ingredients: ['Rice', 'Chicken'],
-      instructions: ['Just do it'],
-      totalTime: 20
-    },
-    {
-      title: 'Piscanec na secuanski nacin',
-      ingredients: ['Rice', 'Chicken'],
-      instructions: ['Just do it'],
-      totalTime: 20
-    },
-    {
-      title: 'Piscanec po mongolsko',
-      ingredients: ['Rice', 'chicken', 'bamboo', 'garlic'],
-      instructions: ['Just do it'],
-      totalTime: 20
-    },
-];
+import { useState, useEffect } from "react";
+import { getRecipes } from "../services/api";
 
 function Saved() {
+    const [savedRecipes, setSavedRecipes] = useState([]);
+    useEffect(() => {
+        getRecipes().then(response => setSavedRecipes(response.recipes));
+    }, [])
     return (
         <div className="min-h-screen pt-16">
             <div className="max-w-5xl mx-auto px-6 py-4">
