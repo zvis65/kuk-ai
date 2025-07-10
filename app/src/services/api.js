@@ -15,7 +15,7 @@ const api = axios.create({
 api.interceptors.request.use(config => {
     const token = useAuthStore.getState().token;
     if (token) {
-        config.header.Authorization = `Bearer ${token}`
+        config.headers.Authorization = `Bearer ${token}`
 
     }
     return config;
@@ -25,7 +25,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status == 401) {
+        if (error.response?.status == 401) {
             useAuthStore.getState().logout();
         }
         return Promise.reject(error);
@@ -43,7 +43,16 @@ export async function login({ email, password }){
 export async function register({ name, email, password }){
     const response = await api.post("/api/v1/auth/register", {
        name, email, password
-    })
+    });
+
+    return response.data;
+}
+
+
+export async function saveRecipe({ title, ingredients, instructions, totalTime }){
+    const response = await api.post("/api/v1/recipes", {
+      title, ingredients, instructions, totalTime
+    });
 
     return response.data;
 }
