@@ -1,14 +1,27 @@
+import useAuthStore from "../store/auth";
+
 export function RecipeCard({ recipe, hasSave }) {
+
+  const isLoggedIn = useAuthStore(state => !!state.user);
+  const setAuthModal = useAuthStore(state => state.setAuthModal);
+
+  function saveRecipe() {
+    if (!isLoggedIn) {
+      setAuthModal(true);
+      return;
+    }
+  }
+
   return (
     <div className="recipe-card">
-      <div className="mc-4">
+      <div className="mb-4">
         <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
-            {recipe.title}
+          {recipe.title}
         </h3>
         <div className="flex items-center text-purple-400">
-            <span className="text-sm font-medium">
-                {recipe.totalTime} minutes
-            </span>
+          <span className="text-sm font-medium">
+            {recipe.totalTime} minutes
+          </span>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -19,33 +32,31 @@ export function RecipeCard({ recipe, hasSave }) {
               <li key={ingredient} className="ingredient-item">
                 <span className="text-purple-400 mr-2">•</span>
                 <span>{ingredient}</span>
-              </li>  
+              </li>
             ))}
           </ul>
         </div>
         <div><h4 className="section-title">Instructions</h4>
-        <ul className="space-y-2">
+          <ul className="space-y-2">
             {recipe.instructions.map((instruction, index) => (
               <li key={instruction} className="instruction-item">
                 <span className="instruction-number">{index + 1}</span>
-                  
+
                 <span className="leading-relaxed">{instruction}</span>
-              </li>  
+              </li>
             ))}
           </ul>
-          </div>
+        </div>
       </div>
-            
-        {hasSave ? (
-          <div className="mt-6 pt-4 border-t border-white/10">
-            <button className="save-button">
-              Save recipe
-            </button>
-          </div>
-        ) : (
-          null
-        )}
+
+      {hasSave ? (
+        <div className="mt-6 pt-4 border-t border-white/10">
+          <button className="save-button" onClick={saveRecipe}>Save recipe</button>
+        </div>
+      ) : (
+        null
+      )}
     </div>
-    
+
   )
 }

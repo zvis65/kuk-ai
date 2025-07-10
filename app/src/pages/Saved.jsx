@@ -15,7 +15,7 @@ const savedRecipes = [
     },
     {
       title: 'Piscanec po mongolsko',
-      ingredients: ['Rice', 'chicken', 'bambus'],
+      ingredients: ['Rice', 'chicken', 'bamboo', 'garlic'],
       instructions: ['Just do it'],
       totalTime: 20
     },
