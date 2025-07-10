@@ -1,25 +1,45 @@
 import { useState } from "react";
 import { RecipeCard } from "../components/RecipeCard";
+import Lottie from "lottie-react";
+import FryingPan from "../assets/fry.json";
 
 function Home() {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState(null);
 
-  function generateRecipe(){
+  async function generateRecipe(){
+    if  (!prompt.trim() || isLoading){
+      return;
+    }
+    setIsLoading(true);
+    await new Promise(r => setTimeout(r, 6000));
     setRecipe({
-      title: 'piscanec po mongolsko',
+      title: 'Chicken',
       ingredients: ['Rice', 'Chicken', 'Soy sauce'],
       instructions: ['Just do it'],
       totalTime: 20
     })
     setPrompt("");
+    setIsLoading(false)
   }    
 
   return (
     <div className="min-h-screen pt-16 pb-20">
       <div className="max-w-5xl mx-auto px-6 py-8">
-        {!recipe ? (
+        {isLoading ?
+         <div className="text-center mb-12 flex flex-col items-center justify-center">
+          <Lottie
+          animationData={FryingPan}
+          loop
+          className="w-100 h-1000"
+          speed={1.5}
+          />
+          <span className= "text-white text-2xl front-medium">
+            Your recipe is cookig
+          </span>
+          </div>
+          : !recipe ? (
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent">
               Welcome to Kuk-AI
