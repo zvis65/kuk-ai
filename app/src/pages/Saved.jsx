@@ -14,8 +14,8 @@ const savedRecipes = [
       totalTime: 20
     },
     {
-      title: 'Test',
-      ingredients: ['Rice', 'egg'],
+      title: 'Piscanec po mongolsko',
+      ingredients: ['Rice', 'chicken', 'bambus'],
       instructions: ['Just do it'],
       totalTime: 20
     },
@@ -25,8 +25,8 @@ function Saved() {
     return (
         <div className="min-h-screen pt-16">
             <div className="max-w-5xl mx-auto px-6 py-4">
-                <div className="text-center mb-4">
-                    <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+                <div className="text-center mb-10">
+                    <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent">
                         My saved recipes
                     </h1>
                 </div>

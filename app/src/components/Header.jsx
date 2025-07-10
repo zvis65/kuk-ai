@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { login, register } from "../services/api";
+import useAuthStore from "../store/auth";
 
-function Header({ user, setUser }) {
+function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const isLoggedIn = user != null;
-
-  function onLogin() {
-    setUser(null);
-  }
+  
+  const user = useAuthStore((state) => state.user);
+  const isLoggedIn = useAuthStore((state) => !!state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   const handleNavigation = () => {
     if (location.pathname === "/") {
@@ -28,38 +28,41 @@ function Header({ user, setUser }) {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/5 backdrop-blur-lg border-b border-white/20">
         <div className="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
-            KukAI
-          </div>
-
           <div className="flex items-center gap-4">
-            {isLoggedIn && (
+            <div className="text-xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+              KukAI
+            </div>
+            
+            {isLoggedIn ? (
               <button
                 onClick={handleNavigation}
                 className="px-3 py-1.5 bg-white/15 backdrop-blur-sm border border-white/25 rounded-md text-white transition-all duration-200 text-sm"
               >
                 {getNavButtonText()}
               </button>
-            )}
+            ) : null}
+          </div>
 
+          <div className="flex items-center gap-3">
             <button
-              onClick={isLoggedIn ? onLogout : () => setShowAuthModal(true)}
+              onClick={isLoggedIn ? logout : () => setShowAuthModal(true)}
               className="px-3 py-1.5 bg-gradient-to-r from-purple-300/20 to-pink-300/20 backdrop-blur-sm border border-purple-200/30 rounded-md text-white transition-all duration-200 text-sm"
             >
               {isLoggedIn ? "Logout" : "Login"}
             </button>
+            {user ? <span className="text-sm text-white font-medium">{user.name}</span> : null}
           </div>
         </div>
       </header>
 
-      {showAuthModal && (
-        <AuthModal onClose={() => setShowAuthModal(false)} setUser={setUser} />
-      )}
+      {showAuthModal ? (
+        <AuthModal onClose={() => setShowAuthModal(false)} />
+      ) : null}
     </>
   );
 }
 
-function AuthModal({ onClose, onUser }) {
+function AuthModal({ onClose }) {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -67,11 +70,19 @@ function AuthModal({ onClose, onUser }) {
     password: "",
   });
 
+  const setAuth = useAuthStore((state) => state.setAuth);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginResponse = await login(formData)
-    debugger    
-    onClose();
+    try {
+      const response = isRegisterMode 
+        ? await register(formData)
+        : await login(formData);
+      
+      setAuth(response.user, response.token);
+      onClose();
+    } catch (error) {
+      console.error('Auth failed:', error);
+    }
   };
 
   const handleInputChange = (e) => {
