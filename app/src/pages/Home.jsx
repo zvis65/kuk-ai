@@ -8,7 +8,7 @@ function Home() {
 
   function generateRecipe(){
     setRecipe({
-      title: 'piscanec po kitajsko',
+      title: 'piscanec po mongolsko',
       ingredients: ['Rice', 'Chicken', 'Soy sauce'],
       instructions: ['Just do it'],
       totalTime: 20

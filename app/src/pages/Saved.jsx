@@ -2,13 +2,13 @@ import { RecipeCard } from "../components/RecipeCard";
 
 const savedRecipes = [
     {
-      title: 'Test',
+      title: 'Raw chicken',
       ingredients: ['Rice', 'Chicken'],
       instructions: ['Just do it'],
       totalTime: 20
     },
     {
-      title: 'Test',
+      title: 'Piscanec na secuanski nacin',
       ingredients: ['Rice', 'Chicken'],
       instructions: ['Just do it'],
       totalTime: 20
