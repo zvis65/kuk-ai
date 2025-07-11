@@ -2,6 +2,8 @@ import { useState } from "react";
 import { RecipeCard } from "../components/RecipeCard";
 import Lottie from "lottie-react";
 import FryingPan from "../assets/fry.json";
+import { aiGenerateRecipe } from "../services/api";
+import { toast } from 'react-toastify';
 
 function Home() {
   const [prompt, setPrompt] = useState('');
@@ -13,13 +15,19 @@ function Home() {
       return;
     }
     setIsLoading(true);
-    await new Promise(r => setTimeout(r, 6000));
-    setRecipe({
-      title: 'Chicken',
-      ingredients: ['Rice', 'Chicken', 'Soy sauce'],
-      instructions: ['Just do it'],
-      totalTime: 20
-    })
+    try {
+      const aiResponse = await aiGenerateRecipe({
+        prompt: prompt.trim()
+      });
+      setRecipe(aiResponse.recipe);
+    }catch (error) {
+      if (error.response?.status == 422) {
+        toast.info('Invalid prompt!');
+      } else {
+        toast.info('Something went wrong');
+      }
+    }
+    
     setPrompt("");
     setIsLoading(false)
   }    
@@ -32,10 +40,10 @@ function Home() {
           <Lottie
           animationData={FryingPan}
           loop
-          className="w-100 h-1000"
+          className="w-100 h-100"
           speed={1.5}
           />
-          <span className= "text-white text-2xl front-medium">
+          <span className= "text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-red-500 animate-pulse">
             Your recipe is cookig
           </span>
           </div>
