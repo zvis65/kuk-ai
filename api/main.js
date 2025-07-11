@@ -3,7 +3,8 @@ import cors from 'cors';
 import { login, register } from './views/auth.js';
 import { jwtMiddleware } from './util.js';
 import { saveRecipe, getMyRecipes } from './views/recipes.js';
-import { generateRecipe } from './views/ai.js';
+import { generateRecipe, refineRecipe } from './views/ai.js';
+
 
 const app = express();
 const PORT = 3000;
@@ -24,6 +25,7 @@ app.post("/api/v1/recipes", jwtMiddleware, saveRecipe);
 app.get("/api/v1/recipes", jwtMiddleware, getMyRecipes);
 
 app.post("/api/v1/ai/generate-recipe", generateRecipe);
+app.post("/api/v1/ai/refine-recipe", refineRecipe);
 
 app.listen(PORT, () => {
     console.log('App is running!');
